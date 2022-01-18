@@ -71,32 +71,33 @@ var bubbleSorter = {
     iTower: 0,
     jTower: 0,
     sortNext: function() {
+        
         console.log(`Sorting with iTower: ${this.iTower}, jTower: ${this.jTower}`)
         if (this.iTower < NUMBER_OF_TOWERS) {
-
+    
             if (this.jTower < NUMBER_OF_TOWERS - this.iTower - 1) {
-
-                if (this.iTower > 0) grid.updateColor(towers[this.iTower - 1], "blue")
-                grid.updateColor(towers[this.iTower], "purple")
-                grid.updateColor(towers[this.iTower + 1], "purple")
-
-                if (towers[this.iTower].height > towers[this.iTower + 1].height) {
-                    let tmp = towers[this.iTower].height
-                    towers[this.iTower].height = towers[this.iTower + 1].height
-                    towers[this.iTower + 1].height = tmp
-                    grid.addTower(towers[this.iTower], "purple")
-                    grid.addTower(towers[this.iTower + 1], "purple")
+    
+                if (this.jTower > 0) grid.updateColor(towers[this.jTower - 1], "blue")
+                grid.updateColor(towers[this.jTower], "purple")
+                grid.updateColor(towers[this.jTower + 1], "purple")
+    
+                if (towers[this.jTower].height > towers[this.jTower + 1].height) {
+                    let tmp = towers[this.jTower].height
+                    towers[this.jTower].height = towers[this.jTower + 1].height
+                    towers[this.jTower + 1].height = tmp
+                    grid.addTower(towers[this.jTower], "purple")
+                    grid.addTower(towers[this.jTower + 1], "purple")
                 }
-                this.iTower++;
+                this.jTower++;
             } else {
-
+    
                 this.iTower++;
                 grid.updateColor(towers[NUMBER_OF_TOWERS - this.iTower], "green")
                 grid.updateColor(towers[NUMBER_OF_TOWERS - this.iTower - 1], "blue")
-                this.iTower = 0;
+                this.jTower = 0;
             }
         } else {
-
+    
             clearInterval(intervalId)
         }
     }
