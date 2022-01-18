@@ -8,8 +8,6 @@ const NUMBER_OF_TOWERS = 50
 var towers = []
 var grid = new Grid(NUMBER_OF_ROWS, NUMBER_OF_COLUMNS)
 
-var iTower = 0
-var jTower = 0
 var intervalId = null
 var algorithm = 'bubble'
 
@@ -25,7 +23,7 @@ $("input[type=radio][name=inlineRadioOptions]").change(() => {
     jTower = 0
     switch ($("input[type=radio][name=inlineRadioOptions]:checked").val()) {
         case 'bubbleRadioOption':
-            algorithm = 'bubble'
+            algorithm = bubbleSorter.algorithm
             break
         case 'insertionRadioOption':
             algorithm = 'insertion'
@@ -68,6 +66,7 @@ function sortNext(algorithm) {
 }
 
 var bubbleSorter = {
+    algorithm: 'bubble',
     iTower: 0,
     jTower: 0,
     sortNext: function() {
