@@ -23,7 +23,7 @@ $("input[type=radio][name=inlineRadioOptions]").change(() => {
     initializeRandomGrid()
     iTower = 0
     jTower = 0
-    switch($("input[type=radio][name=inlineRadioOptions]:checked").val()) {
+    switch ($("input[type=radio][name=inlineRadioOptions]:checked").val()) {
         case 'bubbleRadioOption':
             algorithm = 'bubble'
             break
@@ -59,7 +59,7 @@ function sortNext(algorithm) {
 
     switch (algorithm) {
         case 'bubble':
-            sortBubbleNext()
+            bubbleSorter.sortNext()
             break
         case 'insertion':
             sortInsertionNext()
@@ -67,50 +67,53 @@ function sortNext(algorithm) {
     }
 }
 
-function sortBubbleNext() {
+var bubbleSorter = {
+    iTower: 0,
+    jTower: 0,
+    sortNext: function() {
+        console.log(`Sorting with iTower: ${this.iTower}, jTower: ${this.jTower}`)
+        if (this.iTower < NUMBER_OF_TOWERS) {
 
-    console.log(`Sorting with iTower: ${iTower}, jTower: ${jTower}`)
-    if (iTower < NUMBER_OF_TOWERS) {
+            if (this.jTower < NUMBER_OF_TOWERS - this.iTower - 1) {
 
-        if (jTower < NUMBER_OF_TOWERS - iTower - 1) {
+                if (this.iTower > 0) grid.updateColor(towers[this.iTower - 1], "blue")
+                grid.updateColor(towers[this.iTower], "purple")
+                grid.updateColor(towers[this.iTower + 1], "purple")
 
-            if (jTower > 0) grid.updateColor(towers[jTower - 1], "blue")
-            grid.updateColor(towers[jTower], "purple")
-            grid.updateColor(towers[jTower + 1], "purple")
+                if (towers[this.iTower].height > towers[this.iTower + 1].height) {
+                    let tmp = towers[this.iTower].height
+                    towers[this.iTower].height = towers[this.iTower + 1].height
+                    towers[this.iTower + 1].height = tmp
+                    grid.addTower(towers[this.iTower], "purple")
+                    grid.addTower(towers[this.iTower + 1], "purple")
+                }
+                this.iTower++;
+            } else {
 
-            if (towers[jTower].height > towers[jTower + 1].height) {
-                let tmp = towers[jTower].height
-                towers[jTower].height = towers[jTower + 1].height
-                towers[jTower + 1].height = tmp
-                grid.addTower(towers[jTower], "purple")
-                grid.addTower(towers[jTower + 1], "purple")
+                this.iTower++;
+                grid.updateColor(towers[NUMBER_OF_TOWERS - this.iTower], "green")
+                grid.updateColor(towers[NUMBER_OF_TOWERS - this.iTower - 1], "blue")
+                this.iTower = 0;
             }
-            jTower++;
         } else {
 
-            iTower++;
-            grid.updateColor(towers[NUMBER_OF_TOWERS - iTower], "green")
-            grid.updateColor(towers[NUMBER_OF_TOWERS - iTower - 1], "blue")
-            jTower = 0;
+            clearInterval(intervalId)
         }
-    } else {
-
-        clearInterval(intervalId)
     }
 }
 
 function sortInsertionNext() {
 
     console.log(`Sorting with iTower: ${iTower}, jTower: ${jTower}`)
-    if(iTower < NUMBER_OF_TOWERS) {
+    if (iTower < NUMBER_OF_TOWERS) {
 
-        if(jTower > 0) {
-            
-            if (towers[jTower-1].height > towers[jTower].height) {
-                let tmp = towers[jTower-1].height
-                towers[jTower-1].height = towers[jTower].height
+        if (jTower > 0) {
+
+            if (towers[jTower - 1].height > towers[jTower].height) {
+                let tmp = towers[jTower - 1].height
+                towers[jTower - 1].height = towers[jTower].height
                 towers[jTower].height = tmp
-                grid.addTower(towers[jTower-1], "purple")
+                grid.addTower(towers[jTower - 1], "purple")
                 grid.addTower(towers[jTower], "purple")
             } else {
                 jTower = 1
@@ -119,7 +122,7 @@ function sortInsertionNext() {
         } else {
 
             iTower++
-            jTower=iTower
+            jTower = iTower
         }
     } else {
 
