@@ -107,6 +107,7 @@ var bubbleSorter = {
         } else {
 
             clearInterval(intervalId)
+            intervalId = null
         }
     },
     reset: function() {
@@ -144,6 +145,7 @@ var insertionSorter = {
         } else {
 
             clearInterval(intervalId)
+            intervalId = null
         }
     },
     reset: function() {
@@ -198,6 +200,7 @@ var selectionSorter = {
         } else {
             grid.updateColor(towers[this.iTower-1], "green")
             clearInterval(intervalId)
+            intervalId = null
         }
     },
     reset: function() {
