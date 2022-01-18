@@ -19,14 +19,12 @@ $(document).ready(() => {
 $("input[type=radio][name=inlineRadioOptions]").change(() => {
 
     initializeRandomGrid()
-    iTower = 0
-    jTower = 0
     switch ($("input[type=radio][name=inlineRadioOptions]:checked").val()) {
         case 'bubbleRadioOption':
             algorithm = bubbleSorter.algorithm
             break
         case 'insertionRadioOption':
-            algorithm = 'insertion'
+            algorithm = insertionSorter.algorithm
             break
     }
 })
@@ -60,7 +58,7 @@ function sortNext(algorithm) {
             bubbleSorter.sortNext()
             break
         case 'insertion':
-            sortInsertionNext()
+            insertionSorter.sortNext()
             break
     }
 }
@@ -102,30 +100,35 @@ var bubbleSorter = {
     }
 }
 
-function sortInsertionNext() {
-
-    console.log(`Sorting with iTower: ${iTower}, jTower: ${jTower}`)
-    if (iTower < NUMBER_OF_TOWERS) {
-
-        if (jTower > 0) {
-
-            if (towers[jTower - 1].height > towers[jTower].height) {
-                let tmp = towers[jTower - 1].height
-                towers[jTower - 1].height = towers[jTower].height
-                towers[jTower].height = tmp
-                grid.addTower(towers[jTower - 1], "purple")
-                grid.addTower(towers[jTower], "purple")
+var insertionSorter = {
+    algorithm: 'insertion',
+    iTower: 1,
+    jTower: 1,
+    sortNext: function() {
+        
+        console.log(`Sorting with iTower: ${this.iTower}, jTower: ${this.jTower}`)
+        if (this.iTower < NUMBER_OF_TOWERS) {
+    
+            if (this.jTower > 0) {
+    
+                if (towers[this.jTower - 1].height > towers[this.jTower].height) {
+                    let tmp = towers[this.jTower - 1].height
+                    towers[this.jTower - 1].height = towers[this.jTower].height
+                    towers[this.jTower].height = tmp
+                    grid.addTower(towers[this.jTower - 1], "purple")
+                    grid.addTower(towers[this.jTower], "purple")
+                } else {
+                    this.jTower = 1
+                }
+                this.jTower--
             } else {
-                jTower = 1
+    
+                this.iTower++
+                this.jTower = this.iTower
             }
-            jTower--
         } else {
-
-            iTower++
-            jTower = iTower
+    
+            clearInterval(intervalId)
         }
-    } else {
-
-        clearInterval(intervalId)
     }
 }
